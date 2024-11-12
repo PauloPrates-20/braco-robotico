@@ -1,22 +1,24 @@
 #include <Arduino.h>
-#include <Servo.h>
 #include <PathPoints.hpp>
+#include <VarSpeedServo.h>
 
 // Servo instanciation
-Servo motorX;
-Servo motorY;
-Servo motorZ;
-Servo motorA;
+VarSpeedServo motorX;
+VarSpeedServo motorY;
+VarSpeedServo motorZ;
+VarSpeedServo motorA;
 
 // Initial motor angles
-int angleX, angleY = 90; 
-int angleZ, angleA = 0;
+int angleX = 120; 
+int angleY = 90; 
+int angleZ = 30;
+int angleA = 0;
+
+// Base speed
+int speed = 75;
 
 // Interval between motors (in ms)
-int interval = 1000;
-
-// Function declarations
-void motorRamp(int& currentAngle, int targetAngle, int motorPin);
+int interval = 500;
 
 void setup() {
   // put your setup code here, to run once:
@@ -31,10 +33,10 @@ void setup() {
   motorA.attach(12);
 
   // Zero the motors
-  motorX.write(angleX);
-  motorY.write(angleY);
-  motorZ.write(angleZ);
-  motorA.write(angleA);
+  motorX.write(angleX, speed, true);
+  motorY.write(angleY, speed, true);
+  motorZ.write(angleZ, speed, true);
+  motorA.write(angleA, speed, true);
 }
 
 void loop() {
@@ -54,40 +56,11 @@ void loop() {
     Serial.print(", Claw=");
     Serial.println(angles[point][ANGLE_A]);
 
-    motorRamp(angleX, angles[point][ANGLE_X], 9);
-    motorRamp(angleY, angles[point][ANGLE_Y], 10);
-    motorRamp(angleZ, angles[point][ANGLE_Z], 11);
-    motorRamp(angleA, angles[point][ANGLE_A], 12);
+    motorX.write(angles[point][ANGLE_X], speed, true);
+    motorY.write(angles[point][ANGLE_Y], speed, true);
+    motorZ.write(angles[point][ANGLE_Z], speed, true);
+    motorA.write(angles[point][ANGLE_A], speed, true);
   }
 
   delay(2000);
-}
-
-void motorRamp(int& currentAngle, int targetAngle, int motorPin) {
-  int count = 0;
-
-  while (currentAngle != targetAngle) {
-    if (currentAngle > targetAngle) currentAngle--;
-    else currentAngle++;
-
-    if (count >= 5 || abs(currentAngle - targetAngle) < 5) {
-      switch (motorPin) {
-        case 9:
-          motorX.write(currentAngle);
-          break;
-        case 10:
-          motorY.write(currentAngle);
-          break;
-        case 11:
-          motorZ.write(currentAngle);
-          break;
-        case 12:
-          motorA.write(currentAngle);
-          break;
-      }
-
-      count = 0;
-    }
-    delay(30);
-  }
 }
