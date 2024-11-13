@@ -16,6 +16,7 @@ int interval = 500;
 
 // Function declarations
 void run(uint8_t repetitions = 1);
+void reset();
 
 void setup() {
   // put your setup code here, to run once:
@@ -30,10 +31,7 @@ void setup() {
   axis[EXTENSION].attach(12);
 
   // Zero the motors
-  axis[ACTUATOR].write(0, speed, true);
-  axis[ROTATION].write(90, speed, true);
-  axis[ELEVATION].write(30, speed, true);
-  axis[EXTENSION].write(120, speed, true);
+  reset();
 
   track.setPath();
 }
@@ -68,4 +66,11 @@ void run(uint8_t repetitions) {
       }
     }
   }
+}
+
+void reset() {
+  axis[ACTUATOR].write(0, speed, true);
+  axis[ROTATION].write(90, speed, true);
+  axis[ELEVATION].write(30, speed, true);
+  axis[EXTENSION].write(120, speed, true);
 }
