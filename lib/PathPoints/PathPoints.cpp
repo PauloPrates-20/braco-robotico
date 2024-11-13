@@ -11,6 +11,8 @@ inline void waitInput() {
 PathPoints::PathPoints() {
     _set = false;
     _points = 0;
+    _path.resize(_points, std::vector<int>(4, 0));
+    _order.resize(_points, std::vector<int>(4, 0));
 }
 
 // Function to set the order of operation of the axis in a given point
@@ -54,6 +56,9 @@ void PathPoints::setPath() {
     waitInput();
     _points = Serial.parseInt();
     Serial.println(_points);
+
+    _path.resize(_points, std::vector<int>(4, 0));
+    _order.resize(_points, std::vector<int>(4, 0));
 
     for (uint8_t point = 0; point < _points; point++) {
         Serial.print("Ponto #");
