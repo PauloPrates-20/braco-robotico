@@ -78,4 +78,9 @@ void PathPoints::editPoint() {
     waitInput();
     uint8_t point = Serial.parseInt();
     Serial.println(point);
+
+    for (uint8_t segment = 0; segment < 4; segment++) {
+        byte axis = setOrder(point, segment);
+        setAngle(point, axis);
+    }
 } 
