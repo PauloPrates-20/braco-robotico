@@ -2,48 +2,43 @@
 
 // Serial functions
 // Waits for user input
-inline void waitInput() {
+void waitInput() {
     while (!(Serial.available() > 0)) { };
 }
 
 // Class declarations
 // Initializer
 PathPoints::PathPoints() {
-    _set = false;
-    _points = 0;
-    _path.resize(_points, std::vector<int>(4, 0));
-    _order.resize(_points, std::vector<int>(4, 0));
+    set = false;
+    points = 0;
+    path.resize(points, std::vector<int>(4, 0));
+    order.resize(points, std::vector<int>(4, 0));
 }
 
 // Function to set the order of operation of the axis in a given point
 byte PathPoints::setOrder(uint8_t point, byte segment) {
-    Serial.println("(0) - Atuador, (1) - Rotação, (2) - Elevação, (3) - Extensão");
+    Serial.println("(0) - Actuator, (1) - Rotation, (2) - Elevation, (3) - Extension");
     Serial.print("Eixo: ");
     waitInput();
     byte axis = Serial.parseInt();
-    _order[point][segment] = axis;
+    order[point][segment] = axis;
     
     switch (axis) {
         case 0:
-            Serial.println("Atuador");
+            Serial.println("Actuator");
             break;
         case 1:
-            Serial.println("Rotação");
+            Serial.println("Rotation");
             break;
         case 2:
-            Serial.println("Evelevação");
+            Serial.println("Elevation");
             break;
         case 3:
-            Serial.println("Extensão");
+            Serial.println("Extension");
             break;
     };
 
     return axis;
-}
-
-// Returns the current set state for the object
-bool PathPoints::isSet() {
-    return _set;
 }
 
 // Function to set the angle of the axis in a given point
@@ -53,20 +48,20 @@ void PathPoints::setAngle(uint8_t point, byte axis) {
     uint8_t angle = Serial.parseInt();
     Serial.println(angle);
 
-    _path[point][axis] = angle;
+    path[point][axis] = angle;
 }
 
 // Function to trace the path
 void PathPoints::setPath() {
     Serial.print("Points in path: ");
     waitInput();
-    _points = Serial.parseInt();
-    Serial.println(_points);
+    points = Serial.parseInt();
+    Serial.println(points);
 
-    _path.resize(_points, std::vector<int>(4, 0));
-    _order.resize(_points, std::vector<int>(4, 0));
+    path.resize(points, std::vector<int>(4, 0));
+    order.resize(points, std::vector<int>(4, 0));
 
-    for (uint8_t point = 0; point < _points; point++) {
+    for (uint8_t point = 0; point < points; point++) {
         Serial.print("Ponto #");
         Serial.println(point);
 
@@ -76,7 +71,7 @@ void PathPoints::setPath() {
         }
     }
 
-    _set = true;
+    set = true;
 }
 
 // Function to edit the segments of a given point

@@ -8,7 +8,7 @@
 
 // Function declarations
 // Serial functions
-inline void waitInput(); // Function to wait for user input
+void waitInput(); // Function to wait for user input
 
 // Class declarations
 class PathPoints {
@@ -18,13 +18,11 @@ class PathPoints {
         void editPoint(); // Function to edit a point within the path
         void setAngle(uint8_t point, byte axis); // Function to set the axis' angles for a given point
         byte setOrder(uint8_t point, byte segment); // Function to set the axis' order for a given point
-        bool isSet(); // Checks if the path is defined
-    
-    private:
-        std::vector<std::vector<int>> _path;
-        std::vector<std::vector<int>> _order;
-        uint8_t _points;
-        bool _set;
+
+        uint8_t points;
+        std::vector<std::vector<int>> path;
+        std::vector<std::vector<int>> order;
+        bool set;
 };
 
 #endif
