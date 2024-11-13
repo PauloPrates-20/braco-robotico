@@ -27,8 +27,8 @@ void setup() {
   // Attach servos
   axis[ACTUATOR].attach(9);
   axis[ROTATION].attach(10);
-  axis[ELEVATION].attach(11);
-  axis[EXTENSION].attach(12);
+  axis[EXTENSION].attach(11);
+  axis[ELEVATION].attach(12);
 
   // Zero the motors
   reset();
@@ -46,33 +46,35 @@ void loop() {
 }
 
 void run(uint8_t repetitions) {
-  if (track.set) {
-    for (uint8_t point = 0; point < track.points; point++) {
-      Serial.print("Point #");
-      Serial.print(point);
-      Serial.print(": ");
-      Serial.print("Actuator: ");
-      Serial.print(track.path[point][ACTUATOR]);
-      Serial.print(" Rotation: ");
-      Serial.print(track.path[point][ROTATION]);
-      Serial.print(" Elevation: ");
-      Serial.print(track.path[point][ELEVATION]);
-      Serial.print(" Extension: ");
-      Serial.println(track.path[point][EXTENSION]);
+  for (int repetition = 1; repetition <= repetitions; repetition++) {
+    if (track.set) {
+      for (uint8_t point = 0; point < track.points; point++) {
+        Serial.print("Point #");
+        Serial.print(point);
+        Serial.print(": ");
+        Serial.print("Actuator: ");
+        Serial.print(track.path[point][ACTUATOR]);
+        Serial.print(" Rotation: ");
+        Serial.print(track.path[point][ROTATION]);
+        Serial.print(" Extension: ");
+        Serial.print(track.path[point][EXTENSION]);
+        Serial.print(" Elevation: ");
+        Serial.println(track.path[point][ELEVATION]);
 
-      for (uint8_t segment = 0; segment < 4; segment++) {
-        byte currentAxis = track.order[point][segment];
-        axis[currentAxis].write(track.path[point][currentAxis]);
+        for (uint8_t segment = 0; segment < 4; segment++) {
+          byte currentAxis = track.order[point][segment];
+          axis[currentAxis].write(track.path[point][currentAxis], speed, true);
+        }
       }
     }
+
+    delay(500);
   }
-  
-  delay(500);
 }
 
 void reset() {
   axis[ACTUATOR].write(0, speed, true);
   axis[ROTATION].write(90, speed, true);
-  axis[ELEVATION].write(30, speed, true);
-  axis[EXTENSION].write(120, speed, true);
+  axis[EXTENSION].write(30, speed, true);
+  axis[ELEVATION].write(120, speed, true);
 }
