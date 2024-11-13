@@ -38,7 +38,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.print("Repetições: ");
+  Serial.print("Repetitions: ");
   waitInput();
   uint8_t repeat = Serial.parseInt();
   Serial.println(repeat);
@@ -48,17 +48,21 @@ void loop() {
 void run(uint8_t repetitions) {
   for (int repetition = 1; repetition <= repetitions; repetition++) {
     if (track.set) {
+      Serial.print("\nRepetition: ");
+      Serial.println(repetition);
+      Serial.println();
+
       for (uint8_t point = 0; point < track.points; point++) {
         Serial.print("Point #");
         Serial.print(point);
         Serial.print(": ");
-        Serial.print("Actuator: ");
+        Serial.print("Actuator angle = ");
         Serial.print(track.path[point][ACTUATOR]);
-        Serial.print(" Rotation: ");
+        Serial.print(" Rotation angle = ");
         Serial.print(track.path[point][ROTATION]);
-        Serial.print(" Extension: ");
+        Serial.print(" Extension angle = ");
         Serial.print(track.path[point][EXTENSION]);
-        Serial.print(" Elevation: ");
+        Serial.print(" Elevation angle = ");
         Serial.println(track.path[point][ELEVATION]);
 
         for (uint8_t segment = 0; segment < 4; segment++) {
@@ -68,6 +72,7 @@ void run(uint8_t repetitions) {
       }
     }
 
+    Serial.println();
     delay(500);
   }
 }

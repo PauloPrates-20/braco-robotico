@@ -18,7 +18,7 @@ PathPoints::PathPoints() {
 // Function to set the order of operation of the axis in a given point
 byte PathPoints::setOrder(uint8_t point, byte segment) {
     Serial.println("(0) - Actuator, (1) - Rotation, (2) - Elevation, (3) - Extension");
-    Serial.print("Eixo: ");
+    Serial.print("Axis: ");
     waitInput();
     byte axis = Serial.parseInt();
     order[point][segment] = axis;
@@ -43,10 +43,11 @@ byte PathPoints::setOrder(uint8_t point, byte segment) {
 
 // Function to set the angle of the axis in a given point
 void PathPoints::setAngle(uint8_t point, byte axis) {
-    Serial.print("Ângulo: ");
+    Serial.print("Angle: ");
     waitInput();
     uint8_t angle = Serial.parseInt();
     Serial.println(angle);
+    Serial.println();
 
     path[point][axis] = angle;
 }
@@ -62,10 +63,11 @@ void PathPoints::setPath() {
     order.resize(points, std::vector<int>(4, 0));
 
     for (uint8_t point = 0; point < points; point++) {
-        Serial.print("Ponto #");
-        Serial.println(point);
-
         for (byte segment = 0; segment < 4; segment++) {
+            Serial.print("\nPoint: #");
+            Serial.print(point + 1);
+            Serial.print(" - Segment: #");
+            Serial.println(segment + 1);
             byte axis = setOrder(point, segment);
             setAngle(point, axis);
         }
