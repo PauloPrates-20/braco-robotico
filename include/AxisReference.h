@@ -1,7 +1,7 @@
 #ifndef __AXIS_REFERENCE_H__
 #define __AXIS_REFERENCE_H__
 
-enum AxisReferente {
+enum AxisReference {
     ACTUATOR = 0,
     ROTATION,
     ELEVATION,
