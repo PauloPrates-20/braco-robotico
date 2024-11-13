@@ -41,6 +41,11 @@ byte PathPoints::setOrder(uint8_t point, byte segment) {
     return axis;
 }
 
+// Returns the current set state for the object
+bool PathPoints::isSet() {
+    return _set;
+}
+
 // Function to set the angle of the axis in a given point
 void PathPoints::setAngle(uint8_t point, byte axis) {
     Serial.print("Ângulo: ");
@@ -51,6 +56,7 @@ void PathPoints::setAngle(uint8_t point, byte axis) {
     _path[point][axis] = angle;
 }
 
+// Function to trace the path
 void PathPoints::setPath() {
     Serial.print("Points in path: ");
     waitInput();
@@ -73,6 +79,7 @@ void PathPoints::setPath() {
     _set = true;
 }
 
+// Function to edit the segments of a given point
 void PathPoints::editPoint() {
     Serial.print("Point to edit: ");
     waitInput();
@@ -83,4 +90,4 @@ void PathPoints::editPoint() {
         byte axis = setOrder(point, segment);
         setAngle(point, axis);
     }
-} 
+}
