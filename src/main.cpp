@@ -66,6 +66,8 @@ void run(uint8_t repetitions) {
       }
     }
   }
+  
+  delay(500);
 }
 
 void reset() {
