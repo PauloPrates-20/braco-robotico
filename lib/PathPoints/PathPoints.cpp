@@ -6,6 +6,44 @@ void waitInput() {
     while (!(Serial.available() > 0)) { };
 }
 
+void printOptions(std::vector<std::vector<int>> order, uint8_t point, byte segments) {
+    bool actuatorDefined = false;
+    bool rotationDefined = false;
+    bool elevationDefined = false;
+    bool extensionDefined = false;
+    bool first = true;
+
+    // Check the order segments for this point for the defined axis
+    for (byte segment = 0; segment < segments; segment++) {
+        if (order[point][segment] == ACTUATOR) actuatorDefined = true;
+        if (order[point][segment] == ROTATION) rotationDefined = true;
+        if (order[point][segment] == ELEVATION) elevationDefined = true;
+        if (order[point][segment] == EXTENSION) extensionDefined = true;
+    }
+
+    // Print the options to the serial
+    if (!actuatorDefined) {
+        Serial.print("(0) - Actuator");
+        first = false;
+    } 
+    if (!first) Serial.print(" ");
+    if (!rotationDefined) {
+        Serial.print("(1) - Rotation");
+        first = false;
+    }
+    if (!first) Serial.print(" ");
+    if (!elevationDefined) {
+        Serial.print("(2) - Elevation");
+        first = false;
+    }
+    if (!first) Serial.print(" ");
+    if (!extensionDefined) {
+        Serial.print("(3) - Extension");
+        first = false;
+    }
+    Serial.println();
+}
+
 // Class declarations
 // Initializer
 PathPoints::PathPoints() {
@@ -17,7 +55,7 @@ PathPoints::PathPoints() {
 
 // Function to set the order of operation of the axis in a given point
 byte PathPoints::setOrder(uint8_t point, byte segment) {
-    Serial.println("(0) - Actuator, (1) - Rotation, (2) - Elevation, (3) - Extension");
+    printOptions(order, point, segment);
     Serial.print("Axis: ");
     waitInput();
     byte axis = Serial.parseInt();

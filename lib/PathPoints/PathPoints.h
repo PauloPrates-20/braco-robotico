@@ -9,6 +9,7 @@
 // Function declarations
 // Serial functions
 void waitInput(); // Function to wait for user input
+void printOptions(std::vector<std::vector<int>> order, uint8_t point, byte segments); // Function to filter the axis options
 
 // Class declarations
 class PathPoints {
