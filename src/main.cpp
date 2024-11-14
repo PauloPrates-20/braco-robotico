@@ -43,6 +43,7 @@ void loop() {
   uint8_t repeat = Serial.parseInt();
   Serial.println(repeat);
   run(repeat);
+  reset();
 }
 
 void run(uint8_t repetitions) {
@@ -54,7 +55,7 @@ void run(uint8_t repetitions) {
 
       for (uint8_t point = 0; point < track.points; point++) {
         Serial.print("Point #");
-        Serial.print(point);
+        Serial.print(point + 1);
         Serial.print(": ");
         Serial.print("Actuator angle = ");
         Serial.print(track.path[point][ACTUATOR]);
